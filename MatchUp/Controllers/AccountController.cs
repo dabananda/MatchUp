@@ -1,6 +1,7 @@
 ﻿using MatchUp.Data;
 using MatchUp.DTOs;
 using MatchUp.Entities;
+using MatchUp.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
@@ -8,10 +9,10 @@ using System.Text;
 
 namespace MatchUp.Controllers
 {
-    public class AccountController(DataContext context) : BaseController
+    public class AccountController(DataContext context, ITokenService tokenService) : BaseController
     {
         [HttpPost("register")]
-        public async Task<ActionResult<AppUser>> Register(RegisterDto dto)
+        public async Task<ActionResult<UserDto>> Register(RegisterDto dto)
         {
             var username = dto.Username.ToLower();
             if (await IsUserExist(username)) return BadRequest("Username is taken");
@@ -24,11 +25,15 @@ namespace MatchUp.Controllers
             };
             await context.Users.AddAsync(user);
             await context.SaveChangesAsync();
-            return user;
+            return new UserDto
+            {
+                Username = user.UserName,
+                Token = tokenService.CreateToken(user)
+            };
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<AppUser>> Login(LoginDto dto)
+        public async Task<ActionResult<UserDto>> Login(LoginDto dto)
         {
             var username = dto.Username.ToLower();
             var user = await context.Users.FirstOrDefaultAsync(x => x.UserName == dto.Username);
@@ -42,7 +47,11 @@ namespace MatchUp.Controllers
                     return Unauthorized("Invalid password");
                 }
             }
-            return user;
+            return new UserDto
+            {
+                Username = user.UserName,
+                Token = tokenService.CreateToken(user)
+            };
         }
 
         public async Task<bool> IsUserExist(string username)
