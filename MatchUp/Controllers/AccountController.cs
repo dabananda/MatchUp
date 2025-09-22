@@ -27,6 +27,24 @@ namespace MatchUp.Controllers
             return user;
         }
 
+        [HttpPost("login")]
+        public async Task<ActionResult<AppUser>> Login(LoginDto dto)
+        {
+            var username = dto.Username.ToLower();
+            var user = await context.Users.FirstOrDefaultAsync(x => x.UserName == dto.Username);
+            if (user == null) return Unauthorized("Invalid username");
+            using var hmac = new HMACSHA512(user.PasswordSalt);
+            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(dto.Password));
+            for (int i = 0; i < computedHash.Length; i++)
+            {
+                if (user.PasswordHash[i] != computedHash[i])
+                {
+                    return Unauthorized("Invalid password");
+                }
+            }
+            return user;
+        }
+
         public async Task<bool> IsUserExist(string username)
         {
             return await context.Users.AnyAsync(x => x.UserName.ToLower() == username);
