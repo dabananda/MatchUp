@@ -5,9 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MatchUp.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class UsersController(DataContext context) : ControllerBase
+    public class UsersController(DataContext context) : BaseController
     {
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
