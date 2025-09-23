@@ -1,0 +1,11 @@
+<div class="container">
+  @if(!registerMode){
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <button (click)="registerToggle()" class="btn btn-outline-primary">Register</button>
+    </div>
+  </div>
+  } @else {
+  <app-register [usersFromHome]="users" (cancelRegister)="cancelRegisterMode($event)" />
+  }
+</div>

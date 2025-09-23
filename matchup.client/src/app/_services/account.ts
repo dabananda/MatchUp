@@ -12,12 +12,24 @@ export class Account {
   baseurl = 'http://localhost:5205/api/';
 
   login(model: any) {
-    return this.http.post<User>(this.baseurl + 'account/login/', model).pipe(
+    return this.http.post<User>(this.baseurl + 'account/login', model).pipe(
       map((user) => {
         if (user) {
           localStorage.setItem('user', JSON.stringify(user));
           this.currentUser.set(user);
         }
+      })
+    );
+  }
+
+  register(model: any) {
+    return this.http.post<User>(this.baseurl + 'account/register', model).pipe(
+      map((user) => {
+        if (user) {
+          localStorage.setItem('user', JSON.stringify(user));
+          this.currentUser.set(user);
+        }
+        return user;
       })
     );
   }
