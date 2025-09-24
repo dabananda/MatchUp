@@ -1,0 +1,30 @@
+<div class="row my-3">
+  <div class="col-md-10 mx-auto">
+    <div class="card bg-danger text-light">
+      <div class="card-header">
+        <h4 class="card-title">Internal server error</h4>
+      </div>
+      @if(error) {
+      <div class="card-body">
+        <h4 class="text-center">This is a server side error</h4>
+        <hr />
+        <p>What to do next?</p>
+        <ol>
+          <li>Open devtools network tab and inspect</li>
+          <li>Examine url failing request</li>
+          <li>Reproduce error in postman</li>
+        </ol>
+        <hr />
+        <p class="fw-semibold">
+          Following is the stack trace - check the first 2 lines, it tells which causes the error:
+        </p>
+        <div class="bg-dark px-3 py-2 my-3 rounded">
+          <code>
+            {{ error.details }}
+          </code>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</div>
