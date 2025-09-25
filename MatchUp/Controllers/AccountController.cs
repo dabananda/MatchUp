@@ -16,20 +16,21 @@ namespace MatchUp.Controllers
         {
             var username = dto.Username.ToLower();
             if (await IsUserExist(username)) return BadRequest("Username is taken");
-            using var hmac = new HMACSHA512();
-            var user = new AppUser
-            {
-                UserName = username,
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(dto.Password)),
-                PasswordSalt = hmac.Key
-            };
-            await context.Users.AddAsync(user);
-            await context.SaveChangesAsync();
-            return new UserDto
-            {
-                Username = user.UserName,
-                Token = tokenService.CreateToken(user)
-            };
+            return Ok();
+            //using var hmac = new HMACSHA512();
+            //var user = new AppUser
+            //{
+            //    UserName = username,
+            //    PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(dto.Password)),
+            //    PasswordSalt = hmac.Key
+            //};
+            //await context.Users.AddAsync(user);
+            //await context.SaveChangesAsync();
+            //return new UserDto
+            //{
+            //    Username = user.UserName,
+            //    Token = tokenService.CreateToken(user)
+            //};
         }
 
         [HttpPost("login")]

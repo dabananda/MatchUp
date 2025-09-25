@@ -4,6 +4,7 @@ using MatchUp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MatchUp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250925014656_AppUserUpdated")]
+    partial class AppUserUpdated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -111,13 +114,13 @@ namespace MatchUp.Migrations
 
             modelBuilder.Entity("MatchUp.Entities.Photo", b =>
                 {
-                    b.HasOne("MatchUp.Entities.AppUser", "AppUser")
+                    b.HasOne("MatchUp.Entities.AppUser", "AppUserm")
                         .WithMany("Photos")
                         .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AppUser");
+                    b.Navigation("AppUserm");
                 });
 
             modelBuilder.Entity("MatchUp.Entities.AppUser", b =>
