@@ -17,9 +17,10 @@ namespace MatchUp.Extensions
             {
                 options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
             });
-            services.AddScoped<ITokenService, TokenService>();
             services.AddCors();
-
+            services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IUserRepo, UserRepo>();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             return services;
         }
     }

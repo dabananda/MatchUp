@@ -1,27 +1,24 @@
-﻿using MatchUp.Data;
-using MatchUp.Entities;
-using Microsoft.AspNetCore.Authorization;
+﻿using MatchUp.DTOs;
+using MatchUp.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace MatchUp.Controllers
 {
-    public class UsersController(DataContext context) : BaseController
+    public class UsersController(IUserRepo userRepo) : BaseController
     {
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
         {
-            var users = await context.Users.ToListAsync();
-            return users;
+            var usersDto = await userRepo.GetMembers();
+            return Ok(usersDto);
         }
 
-        [Authorize]
-        [HttpGet("{id:int}")]
-        public async Task<ActionResult<AppUser>> GetUser(int id)
+        [HttpGet("{username}")]
+        public async Task<ActionResult<MemberDto>> GetUser(string username)
         {
-            var user = await context.Users.FindAsync(id);
-            if (user == null) return NotFound();
-            return user;
+            var userDto = await userRepo.GetMember(username);
+            if (userDto == null) return NotFound();
+            return Ok(userDto);
         }
     }
 }
