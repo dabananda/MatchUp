@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Account } from '../../_services/account';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-test-errors',
@@ -14,7 +15,7 @@ export class TestErrors {
   validationErrors: string[] = [];
 
   get400Error() {
-    this.http.get(this.accountService.baseurl + 'buggy/bad-request').subscribe({
+    this.http.get(environment.apiUrl + 'buggy/bad-request').subscribe({
       next: (response) => console.log(response),
       error: (error) => console.log(error),
     });

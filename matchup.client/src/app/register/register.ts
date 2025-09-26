@@ -10,7 +10,6 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './register.css',
 })
 export class Register {
-  usersFromHome = input.required<any>();
   cancelRegister = output<boolean>();
   private toastr = inject(ToastrService)
   model: any = {};

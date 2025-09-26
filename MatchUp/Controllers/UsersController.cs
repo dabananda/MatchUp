@@ -1,9 +1,11 @@
 ﻿using MatchUp.DTOs;
 using MatchUp.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MatchUp.Controllers
 {
+    [Authorize]
     public class UsersController(IUserRepo userRepo) : BaseController
     {
         [HttpGet]

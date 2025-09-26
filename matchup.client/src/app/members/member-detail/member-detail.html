@@ -1,1 +1,76 @@
-<p>member-detail works!</p>
+@if(member) {
+<div class="row justify-content-center">
+  <div class="col-md-4">
+    <div class="card">
+      <img
+        src="{{ member.photoUrl || './assets/user.png' }} "
+        alt="{{ member.knownAs }}"
+        class="card-img img-thumbnail"
+      />
+      <div class="card-body">
+        <div>
+          <strong>City</strong>
+          <p>{{ member.city }}</p>
+        </div>
+        <div>
+          <strong>Countyr</strong>
+          <p>{{ member.country }}</p>
+        </div>
+        <div>
+          <strong>Age</strong>
+          <p>{{ member.age }}</p>
+        </div>
+        <div>
+          <strong>Gender</strong>
+          <p>{{ member.gender }}</p>
+        </div>
+        <div>
+          <strong>Interests</strong>
+          <p>{{ member.interests }}</p>
+        </div>
+        <div>
+          <strong>Last Active</strong>
+          <p>{{ member.lastActive }}</p>
+        </div>
+        <div>
+          <strong>Created at</strong>
+          <p>{{ member.created }}</p>
+        </div>
+        <div class="card-footer">
+          <div class="btn-group">
+            <button class="btn btn-danger">Like</button>
+            <button class="btn btn-success">Message</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <div>
+      <tabset class="member-tabset">
+        <tab heading="About {{ member.knownAs }}" id="tab1">
+          <h4>Description</h4>
+          <p>{{ member.introduction }}</p>
+          <h4>Looking for</h4>
+          <p>{{ member.lookingFor }}</p>
+        </tab>
+        <tab heading="Interests" id="tab2">
+          <h4>Interests</h4>
+          <p>{{ member.interests }}</p>
+        </tab>
+        <tab heading="Photos" id="tab3" #photoTab="tab">
+          @if(photoTab.active) {
+          <gallery [items]="images" class="gallery"></gallery>
+          }
+        </tab>
+        <tab heading="Messages" id="tab4">
+          <h4>Messages</h4>
+          <p>Messages will go here</p>
+        </tab>
+      </tabset>
+    </div>
+  </div>
+</div>
+} @else {
+<div>No user found</div>
+}
