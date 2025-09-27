@@ -1,0 +1,128 @@
+@if(member) {
+<div class="row justify-content-center p-3">
+  <div class="col-4 text-center"><h2>Your Profile</h2></div>
+  <div class="col-8">
+    @if(editForm.dirty) {
+    <div class="alert alert-info p-3">
+      <i class="fa-solid fa-circle-info"></i>
+      You made changes. Any unsaved changes will be discarded.
+    </div>
+    }
+  </div>
+  <div class="col-md-4">
+    <div class="card">
+      <img
+        src="{{ member.photoUrl || './assets/user.png' }} "
+        alt="{{ member.knownAs }}"
+        class="card-img img-thumbnail"
+      />
+      <div class="card-body">
+        <div>
+          <strong>City</strong>
+          <p>{{ member.city }}</p>
+        </div>
+        <div>
+          <strong>Countyr</strong>
+          <p>{{ member.country }}</p>
+        </div>
+        <div>
+          <strong>Age</strong>
+          <p>{{ member.age }}</p>
+        </div>
+        <div>
+          <strong>Gender</strong>
+          <p>{{ member.gender }}</p>
+        </div>
+        <div>
+          <strong>Last Active</strong>
+          <p>{{ member.lastActive }}</p>
+        </div>
+        <div>
+          <strong>Created at</strong>
+          <p>{{ member.created }}</p>
+        </div>
+        <div class="card-footer">
+          <button
+            [disabled]="!editForm.dirty"
+            class="btn btn-success w-100"
+            form="editForm"
+            type="submit"
+          >
+            Save Changes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <div>
+      <tabset class="member-tabset">
+        <tab heading="About {{ member.knownAs }}" id="tab1">
+          <form #editForm="ngForm" (ngSubmit)="updateMember()" id="editForm">
+            <div>
+              <h4>Introduction</h4>
+              <textarea
+                class="form-control"
+                rows="3"
+                name="introduction"
+                [(ngModel)]="member.introduction"
+              ></textarea>
+            </div>
+            <div>
+              <h4>Interests</h4>
+              <textarea
+                class="form-control"
+                rows="3"
+                name="interests"
+                [(ngModel)]="member.interests"
+              ></textarea>
+            </div>
+            <div>
+              <h4>Looking For</h4>
+              <textarea
+                class="form-control"
+                rows="3"
+                name="lookingFor"
+                [(ngModel)]="member.lookingFor"
+              ></textarea>
+            </div>
+            <h4 class="mt-4">Location Details</h4>
+            <div class="row mt-3">
+              <div class="col-md">
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="city"
+                    [(ngModel)]="member.city"
+                    placeholder="City Name"
+                  />
+                  <label for="floatingInput">City Name</label>
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="country"
+                    [(ngModel)]="member.country"
+                    placeholder="Country Name"
+                  />
+                  <label for="floatingInput">Country Name</label>
+                </div>
+              </div>
+            </div>
+          </form>
+        </tab>
+        <tab heading="Interests" id="tab2">
+          <h4>Interests</h4>
+          <p>{{ member.interests }}</p>
+        </tab>
+      </tabset>
+    </div>
+  </div>
+</div>
+} @else {
+<div>No user found</div>
+}
