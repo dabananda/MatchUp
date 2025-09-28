@@ -72,5 +72,22 @@ namespace MatchUp.Controllers
             if (await userRepo.SaveAllAsync()) return NoContent();
             return BadRequest("Got an error. Please try again");
         }
+
+        [HttpDelete("delete-photo/{photoId:int}")]
+        public async Task<ActionResult> DeletePhoto(int photoId)
+        {
+            var user = await userRepo.GetUserByUsernameAsync(User.GetUsername());
+            if (user == null) return BadRequest("No user found");
+            var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
+            if (photo == null || photo.IsMain) return BadRequest("This photo can't be deleted");
+            if (photo.PublicId != null)
+            {
+                var result = await photoService.DeletePhotoAsync(photo.PublicId);
+                if (result.Error != null) return BadRequest(result.Error.Message);
+            }
+            user.Photos.Remove(photo);
+            if (await userRepo.SaveAllAsync()) return Ok();
+            return BadRequest("Error occured. Please try again");
+        }
     }
 }
