@@ -34,6 +34,7 @@
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1",
     "ng-gallery": "^12.0.0",
+    "ng2-file-upload": "^9.0.0",
     "ngx-bootstrap": "^20.0.2",
     "ngx-spinner": "^19.0.0",
     "ngx-toastr": "^19.1.0",
