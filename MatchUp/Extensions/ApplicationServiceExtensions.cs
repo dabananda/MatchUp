@@ -1,4 +1,5 @@
 ﻿using MatchUp.Data;
+using MatchUp.Helpers;
 using MatchUp.Interfaces;
 using MatchUp.Services;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,8 @@ namespace MatchUp.Extensions
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserRepo, UserRepo>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
+            services.AddScoped<IPhotoService, PhotoService>();
             return services;
         }
     }
