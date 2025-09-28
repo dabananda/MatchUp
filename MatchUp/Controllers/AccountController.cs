@@ -37,7 +37,9 @@ namespace MatchUp.Controllers
         public async Task<ActionResult<UserDto>> Login(LoginDto dto)
         {
             var username = dto.Username.ToLower();
-            var user = await context.Users.FirstOrDefaultAsync(x => x.UserName == dto.Username);
+            var user = await context.Users
+                .Include(p => p.Photos)
+                .FirstOrDefaultAsync(x => x.UserName == dto.Username);
             if (user == null) return Unauthorized("Invalid username");
             using var hmac = new HMACSHA512(user.PasswordSalt);
             var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(dto.Password));
@@ -51,7 +53,8 @@ namespace MatchUp.Controllers
             return new UserDto
             {
                 Username = user.UserName,
-                Token = tokenService.CreateToken(user)
+                Token = tokenService.CreateToken(user),
+                PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
             };
         }
 

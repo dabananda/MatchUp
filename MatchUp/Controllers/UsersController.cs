@@ -58,5 +58,19 @@ namespace MatchUp.Controllers
             }
             return BadRequest("Error while saving photo. Please try again.");
         }
+
+        [HttpPut("set-main-photo/{photoId}")]
+        public async Task<ActionResult> SetMainPhoto(int photoId)
+        {
+            var user = await userRepo.GetUserByUsernameAsync(User.GetUsername());
+            if (user == null) return BadRequest("No user found");
+            var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
+            if (photo == null || photo.IsMain) return BadRequest("Can't use this as main photo");
+            var currentMain = user.Photos.FirstOrDefault(x => x.IsMain);
+            if (currentMain != null) currentMain.IsMain = false;
+            photo.IsMain = true;
+            if (await userRepo.SaveAllAsync()) return NoContent();
+            return BadRequest("Got an error. Please try again");
+        }
     }
 }

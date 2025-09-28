@@ -51,8 +51,8 @@
           aria-expanded="false"
         >
           <img
-            src="https://github.com/mdo.png"
-            alt="mdo"
+            src="{{ accountService.currentUser()?.photoUrl || accountService.defaultImage }}"
+            alt="{{ accountService.currentUser()?.username }}"
             width="32"
             height="32"
             class="rounded-circle"
